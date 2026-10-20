@@ -97,8 +97,6 @@ Then run `pnpm dev` and look at the changed pages at desktop width and at
 a category, a product with options, `/blog`, a post, a policy page, and a
 missing URL for the 404.
 
-In development, `?rounding=none|sm|md|lg` previews another corner rounding.
-
 ## Don't
 
 - Don't add a CSS framework, UI kit or icon package. Icons are small Svelte

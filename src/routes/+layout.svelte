@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '../app.css';
-	import { dev } from '$app/env';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 	import type { Snippet } from 'svelte';
@@ -34,10 +33,7 @@
 		md: '1rem',
 		lg: '1.5rem'
 	};
-	// In dev, ?rounding=none|sm|md|lg previews another rounding without touching the store.
-	const rounding = $derived(
-		(dev && page.url.searchParams.get('rounding')) || data.store.personalization?.rounding || 'md'
-	);
+	const rounding = $derived(data.store.personalization?.rounding ?? 'md');
 	const radiusControls = $derived(controlsByRounding[rounding] ?? '0.75rem');
 	const radiusPanels = $derived(panelsByRounding[rounding] ?? '1rem');
 	const fontFamily = $derived(buildFontFamily(data.store.personalization?.font ?? null));

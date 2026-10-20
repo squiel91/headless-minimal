@@ -22,8 +22,7 @@ off with the merchant and verify the result in the browser.
       description: one or two sentences, under 160 characters.
 - [ ] **Merchant Center:** Ajustes → Tienda → Personalización: main color,
       button text color, font and rounding. The storefront uses the same
-      values as the checkout. `Sin redondeo` suits this template best; preview
-      the options locally with `?rounding=none`, `sm`, `md` or `lg`.
+      values as the checkout. `Sin redondeo` suits this template best.
 
 ## 3. Homepage copy
 

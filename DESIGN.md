@@ -60,8 +60,7 @@ Headings use `font-medium` and `text-balance`. The font is the store's own
 ### Rounding
 
 Controls and panels follow `store.personalization.rounding` (`none`, `sm`,
-`md`, `lg`) through `--radius-controls` and `--radius-panels`. In development,
-add `?rounding=none` (or `sm`, `md`, `lg`) to any URL to preview another value.
+`md`, `lg`) through `--radius-controls` and `--radius-panels`.
 `none` suits this template best: square corners match the type and the rules.
 
 ## Components
