@@ -1,0 +1,303 @@
+{
+	"version": 1,
+	"notes": [
+		"Demo content for a new store: 5 products, 2 collections, 3 blog posts. Shapes follow Merchant API v3 create requests.",
+		"Records reference each other by `key` because IDs only exist after creation. Every *Key / *Keys field replaces the API's matching *Id / *Ids field (imageKeys -> imageIds, coverImageKey -> coverImageId, attributeValueKeys -> attributeValueIds, collectionKeys -> collectionIds, imageKey -> imageId).",
+		"Image sources are public Cloudflare Images URLs (variant `lg`).",
+		"Creation order: 1) images (POST /images/from-url), 2) attributes (POST /attributes), 3) collections (POST /collections), 4) products (POST /products), then per product: collections/add, attribute-values (set), variants (POST /variants, then DELETE the initial no-attribute variant when `variants` is present), reviews (POST /reviews with productId), 5) collection product order (reorder-products, following `productKeys`), 6) blog posts (POST /blog-posts), 7) menus (POST /menus), last because items link to the records above.",
+		"Menu items use `resourceKey` for records in this seed (-> resourceId). Items with `pageHandle` link to the standard pages the platform creates; resolve resourceId from that page's handle, and drop the item if the page does not exist.",
+		"Prices are UYU minor units. `stock: null` means unlimited; `stock: 0` shows as out of stock."
+	],
+	"images": [
+		{ "key": "jarronDeGres1", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/599342b6-395d-4549-7a17-063e78390f00/lg", "fileName": "jarronDeGres1.jpg", "alt": "Jarrón de gres color arena con una rama de olivo seca" },
+		{ "key": "jarronDeGres2", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/e27b1c76-a5de-4625-6353-f7878a2dec00/lg", "fileName": "jarronDeGres2.jpg", "alt": "Detalle del esmalte moteado y el borde del jarrón de gres" },
+		{ "key": "jarraDeVidrio1", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/ca34d67c-8383-4e7d-4e5d-b0d59312f300/lg", "fileName": "jarraDeVidrio1.jpg", "alt": "Jarra de vidrio soplado con agua junto a un vaso" },
+		{ "key": "mantaDeLinoNatural", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/71a3dd66-1f90-4adb-921a-be23cf295700/lg", "fileName": "mantaDeLinoNatural.jpg", "alt": "Manta de lino color natural doblada" },
+		{ "key": "mantaDeLinoArena", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/c815ffe1-b96f-4de7-e9ef-7d330fa38300/lg", "fileName": "mantaDeLinoArena.jpg", "alt": "Manta de lino color arena doblada" },
+		{ "key": "mantaDeLinoCarbon", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/edd470b2-f3a3-47ec-d8de-83ff47bb7b00/lg", "fileName": "mantaDeLinoCarbon.jpg", "alt": "Manta de lino color carbón doblada" },
+		{ "key": "mantaDeLinoDetalle", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/5535357d-b1a8-4702-7581-10fb88d01200/lg", "fileName": "mantaDeLinoDetalle.jpg", "alt": "Manta de lino natural sobre un banco de roble, con detalle de flecos" },
+		{ "key": "tabureteDeRoble1", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/44903077-777b-4d7a-6def-f922a7968700/lg", "fileName": "tabureteDeRoble1.jpg", "alt": "Taburete de roble macizo de tres patas" },
+		{ "key": "tabureteDeRoble2", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/0e517bc6-648e-4b71-d105-5975fa995700/lg", "fileName": "tabureteDeRoble2.jpg", "alt": "Detalle de la veta del asiento del taburete de roble" },
+		{ "key": "lamparaDeCeramica1", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/a63f0dbd-fe17-433a-9ac5-980688aa6600/lg", "fileName": "lamparaDeCeramica1.jpg", "alt": "Lámpara de mesa con base de cerámica y pantalla de lino" },
+		{ "key": "lamparaDeCeramica2", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/963305ac-ee58-4abf-5788-aae04966be00/lg", "fileName": "lamparaDeCeramica2.jpg", "alt": "Lámpara de cerámica encendida al atardecer" },
+		{ "key": "postJarronesCover", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/aab1d4c0-63e6-4dd6-bd8a-a6e4a050dc00/lg", "fileName": "postJarronesCover.jpg", "alt": "Tres jarrones de gres con flores silvestres sobre una mesa de roble" },
+		{ "key": "postJarronesInline", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/dc4846ac-e628-407a-818c-852b3bfd1500/lg", "fileName": "postJarronesInline.jpg", "alt": "Un florero de cuello angosto y un jarrón bajo y ancho vistos desde arriba" },
+		{ "key": "postLinoCover", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/79ee9120-5b55-4a88-a6fc-28a1be9c2f00/lg", "fileName": "postLinoCover.jpg", "alt": "Ropa de cama de lino natural a la luz de la mañana" },
+		{ "key": "postLinoInline", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/0641b9d1-158d-41f9-a731-b1900fb5fe00/lg", "fileName": "postLinoInline.jpg", "alt": "Servilletas y toalla de lino secándose junto a una ventana" },
+		{ "key": "postLamparasCover", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/493f4dfe-1279-4f6d-0704-a88b8cf51300/lg", "fileName": "postLamparasCover.jpg", "alt": "Rincón de living al atardecer con una lámpara de cerámica encendida" },
+		{ "key": "postLamparasInline", "sourceUrl": "https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/cbe41aad-00c2-48dc-acfe-89a96eba3c00/lg", "fileName": "postLamparasInline.jpg", "alt": "Dos lámparas de mesa encendidas con pantallas de distinta forma" }
+	],
+	"attributes": [
+		{
+			"key": "color",
+			"name": "Color",
+			"displayType": "radio",
+			"metaBusinessFieldMapping": "color",
+			"values": [
+				{ "key": "colorNatural", "value": "Natural", "color": "#D8CCB8", "note": null, "imageId": null },
+				{ "key": "colorArena", "value": "Arena", "color": "#C2A887", "note": null, "imageId": null },
+				{ "key": "colorCarbon", "value": "Carbón", "color": "#4A4744", "note": null, "imageId": null }
+			]
+		},
+		{
+			"key": "tamano",
+			"name": "Tamaño",
+			"displayType": "dropdown",
+			"metaBusinessFieldMapping": "size",
+			"values": [
+				{ "key": "tamano130x170", "value": "130 × 170 cm", "color": null, "note": null, "imageId": null },
+				{ "key": "tamano150x200", "value": "150 × 200 cm", "color": null, "note": null, "imageId": null }
+			]
+		}
+	],
+	"collections": [
+		{
+			"key": "mesaYCocina",
+			"name": "Mesa y cocina",
+			"handle": "mesa-y-cocina",
+			"description": "Piezas para servir, compartir y poner flores sobre la mesa. Gres, vidrio y formas simples que se usan todos los días.",
+			"isListed": true,
+			"isEnabled": true,
+			"defaultSortBy": "manual",
+			"coverImageKey": "jarronDeGres1",
+			"seo": { "title": null, "description": "Jarrones, jarras y piezas de mesa hechas a mano." },
+			"productKeys": ["jarronDeGres", "jarraDeVidrio"]
+		},
+		{
+			"key": "living",
+			"name": "Living",
+			"handle": "living",
+			"description": "Textiles, madera y luz cálida para el lugar donde pasás más tiempo.",
+			"isListed": true,
+			"isEnabled": true,
+			"defaultSortBy": "manual",
+			"coverImageKey": "lamparaDeCeramica1",
+			"seo": { "title": null, "description": "Mantas de lino, muebles de roble y lámparas de cerámica." },
+			"productKeys": ["mantaDeLino", "lamparaDeCeramica", "tabureteDeRoble"]
+		}
+	],
+	"products": [
+		{
+			"key": "jarronDeGres",
+			"title": "Jarrón de gres",
+			"handle": "jarron-de-gres",
+			"currency": "UYU",
+			"basePriceInCents": 240000,
+			"baseCompareAtPriceInCents": null,
+			"baseWeightInGrams": 1200,
+			"stock": 12,
+			"sku": "JAR-GRES-ARENA",
+			"isListed": true,
+			"isPhysical": true,
+			"description": "Un jarrón alto, torneado a mano en gres y terminado con un esmalte arena moteado. Cada pieza sale distinta: las pequeñas manchas y el borde irregular son parte del proceso.\n\nFunciona igual con una sola rama seca que con un ramo de flores frescas. El interior está esmaltado, así que puede llevar agua.",
+			"specifications": [
+				{ "name": "Material", "value": "Gres esmaltado" },
+				{ "name": "Alto", "value": "32 cm" },
+				{ "name": "Diámetro", "value": "14 cm" },
+				{ "name": "Cuidado", "value": "Lavar a mano" }
+			],
+			"seo": { "title": null, "description": "Jarrón alto de gres torneado a mano, con esmalte arena moteado." },
+			"imageKeys": ["jarronDeGres1", "jarronDeGres2"],
+			"collectionKeys": ["mesaYCocina"],
+			"reviews": [
+				{ "rating": 5, "authorName": "Lucía F.", "content": "Es más lindo en persona. El esmalte tiene unos puntitos que en la foto casi no se ven.", "isVerifiedPurchase": true, "createdAt": "2026-09-02" },
+				{ "rating": 5, "authorName": "Martín P.", "content": "Lo compré para regalar y terminé pidiendo otro para casa. Llegó muy bien embalado.", "isVerifiedPurchase": true, "createdAt": "2026-09-18" },
+				{ "rating": 4, "authorName": "Sofía R.", "content": "Muy buena calidad. Es un poco más angosto de lo que imaginaba, ideal para pocas flores.", "isVerifiedPurchase": true, "createdAt": "2026-10-05" }
+			]
+		},
+		{
+			"key": "jarraDeVidrio",
+			"title": "Jarra de vidrio soplado",
+			"handle": "jarra-de-vidrio-soplado",
+			"currency": "UYU",
+			"basePriceInCents": 190000,
+			"baseCompareAtPriceInCents": null,
+			"baseWeightInGrams": 900,
+			"stock": 0,
+			"sku": "JARRA-VIDRIO-1L",
+			"isListed": true,
+			"isPhysical": true,
+			"description": "Jarra de un litro soplada a mano, con un vaso a juego que también sirve de tapa. El vidrio es fino y tiene pequeñas burbujas que delatan el trabajo artesanal.\n\nIdeal para la mesa de luz o para servir agua en la mesa.",
+			"specifications": [
+				{ "name": "Material", "value": "Vidrio soplado" },
+				{ "name": "Capacidad", "value": "1 litro" },
+				{ "name": "Incluye", "value": "Vaso de 200 ml" },
+				{ "name": "Cuidado", "value": "Lavar a mano" }
+			],
+			"seo": { "title": null, "description": "Jarra de vidrio soplado a mano de 1 litro, con vaso a juego." },
+			"imageKeys": ["jarraDeVidrio1"],
+			"collectionKeys": ["mesaYCocina"],
+			"reviews": []
+		},
+		{
+			"key": "mantaDeLino",
+			"title": "Manta de lino",
+			"handle": "manta-de-lino",
+			"currency": "UYU",
+			"basePriceInCents": 490000,
+			"baseCompareAtPriceInCents": null,
+			"baseWeightInGrams": 1100,
+			"stock": null,
+			"sku": null,
+			"isListed": true,
+			"isPhysical": true,
+			"description": "Manta de lino lavado a la piedra, con flecos cosidos a mano en los extremos. Es liviana en verano y abriga lo justo en invierno.\n\nEl lino se vuelve más suave con cada lavado, así que va a estar cada vez mejor.",
+			"specifications": [
+				{ "name": "Material", "value": "100 % lino lavado a la piedra" },
+				{ "name": "Terminación", "value": "Flecos cosidos a mano" },
+				{ "name": "Cuidado", "value": "Lavarropas en frío, secar a la sombra" }
+			],
+			"seo": { "title": null, "description": "Manta de lino lavado a la piedra en tres colores y dos tamaños." },
+			"imageKeys": ["mantaDeLinoNatural", "mantaDeLinoArena", "mantaDeLinoCarbon", "mantaDeLinoDetalle"],
+			"collectionKeys": ["living"],
+			"attributeValueKeys": ["colorNatural", "colorArena", "colorCarbon", "tamano130x170", "tamano150x200"],
+			"variants": [
+				{ "attributeValueKeys": ["colorNatural", "tamano130x170"], "priceInCents": 490000, "compareAtPriceInCents": null, "weightInGrams": 1100, "stock": 10, "sku": "MANTA-NAT-130", "isListed": true, "coverImageKey": "mantaDeLinoNatural" },
+				{ "attributeValueKeys": ["colorNatural", "tamano150x200"], "priceInCents": 640000, "compareAtPriceInCents": null, "weightInGrams": 1500, "stock": 6, "sku": "MANTA-NAT-150", "isListed": true, "coverImageKey": "mantaDeLinoNatural" },
+				{ "attributeValueKeys": ["colorArena", "tamano130x170"], "priceInCents": 490000, "compareAtPriceInCents": null, "weightInGrams": 1100, "stock": 8, "sku": "MANTA-ARE-130", "isListed": true, "coverImageKey": "mantaDeLinoArena" },
+				{ "attributeValueKeys": ["colorArena", "tamano150x200"], "priceInCents": 640000, "compareAtPriceInCents": null, "weightInGrams": 1500, "stock": 4, "sku": "MANTA-ARE-150", "isListed": true, "coverImageKey": "mantaDeLinoArena" },
+				{ "attributeValueKeys": ["colorCarbon", "tamano130x170"], "priceInCents": 490000, "compareAtPriceInCents": null, "weightInGrams": 1100, "stock": 5, "sku": "MANTA-CAR-130", "isListed": true, "coverImageKey": "mantaDeLinoCarbon" },
+				{ "attributeValueKeys": ["colorCarbon", "tamano150x200"], "priceInCents": 640000, "compareAtPriceInCents": null, "weightInGrams": 1500, "stock": 0, "sku": "MANTA-CAR-150", "isListed": true, "coverImageKey": "mantaDeLinoCarbon" }
+			],
+			"reviews": [
+				{ "rating": 5, "authorName": "Valentina G.", "content": "La uso todos los días en el sillón. Después de dos lavados quedó todavía más suave.", "isVerifiedPurchase": true, "createdAt": "2026-08-21" },
+				{ "rating": 5, "authorName": "Diego M.", "content": "El color arena es exactamente el de la foto. Buen tamaño para cama de una plaza y media.", "isVerifiedPurchase": true, "createdAt": "2026-09-27" }
+			]
+		},
+		{
+			"key": "tabureteDeRoble",
+			"title": "Taburete de roble",
+			"handle": "taburete-de-roble",
+			"currency": "UYU",
+			"basePriceInCents": 850000,
+			"baseCompareAtPriceInCents": 990000,
+			"baseWeightInGrams": 3500,
+			"stock": 5,
+			"sku": "TAB-ROBLE",
+			"isListed": true,
+			"isPhysical": true,
+			"description": "Taburete de roble macizo con tres patas levemente abiertas y un asiento redondo de bordes suaves. Terminado con aceite natural, que realza la veta y se puede renovar en casa.\n\nSirve como asiento, mesa auxiliar junto al sillón o mesa de luz.",
+			"specifications": [
+				{ "name": "Material", "value": "Roble macizo" },
+				{ "name": "Terminación", "value": "Aceite natural" },
+				{ "name": "Alto", "value": "45 cm" },
+				{ "name": "Diámetro del asiento", "value": "32 cm" }
+			],
+			"seo": { "title": null, "description": "Taburete de roble macizo con terminación de aceite natural." },
+			"imageKeys": ["tabureteDeRoble1", "tabureteDeRoble2"],
+			"collectionKeys": ["living"],
+			"reviews": [
+				{ "rating": 5, "authorName": "Carolina B.", "content": "Muy firme y la madera es hermosa. Lo usamos como mesa de luz.", "isVerifiedPurchase": true, "createdAt": "2026-10-01" }
+			]
+		},
+		{
+			"key": "lamparaDeCeramica",
+			"title": "Lámpara de cerámica",
+			"handle": "lampara-de-ceramica",
+			"currency": "UYU",
+			"basePriceInCents": 620000,
+			"baseCompareAtPriceInCents": null,
+			"baseWeightInGrams": 2400,
+			"stock": 8,
+			"sku": "LAMP-CER-PIEDRA",
+			"isListed": true,
+			"isPhysical": true,
+			"description": "Lámpara de mesa con base redonda de cerámica mate color piedra y pantalla de lino natural. La pantalla filtra la luz y la vuelve cálida y pareja, sin encandilar.\n\nPensada para la mesa de luz, un aparador o el rincón de lectura.",
+			"specifications": [
+				{ "name": "Base", "value": "Cerámica mate" },
+				{ "name": "Pantalla", "value": "Lino natural" },
+				{ "name": "Alto total", "value": "48 cm" },
+				{ "name": "Lámpara", "value": "E27, no incluida (recomendamos luz cálida de 2700 K)" },
+				{ "name": "Cable", "value": "1,8 m forrado en tela, con interruptor" }
+			],
+			"seo": { "title": null, "description": "Lámpara de mesa con base de cerámica mate y pantalla de lino." },
+			"imageKeys": ["lamparaDeCeramica1", "lamparaDeCeramica2"],
+			"collectionKeys": ["living"],
+			"reviews": [
+				{ "rating": 5, "authorName": "Andrés L.", "content": "La luz que da es hermosa, muy cálida. La base pesa bien y no se mueve.", "isVerifiedPurchase": true, "createdAt": "2026-09-10" },
+				{ "rating": 4, "authorName": "Florencia T.", "content": "Muy linda. Le pondría un cable un poco más largo, pero en mi mesa de luz funciona perfecto.", "isVerifiedPurchase": true, "createdAt": "2026-10-12" }
+			]
+		}
+	],
+	"blogPosts": [
+		{
+			"key": "postJarrones",
+			"title": "Cómo elegir un jarrón para cada flor",
+			"handle": "como-elegir-un-jarron",
+			"excerpt": "La forma del jarrón cambia todo. Una guía corta para que tus flores se vean mejor y duren más.",
+			"coverImageKey": "postJarronesCover",
+			"isListed": true,
+			"seo": { "title": null, "description": "Qué jarrón usar según el tipo de flor: tallos largos, ramos y flores sueltas." },
+			"content": [
+				{ "type": "paragraph", "text": "Un mismo ramo puede verse desordenado o impecable según dónde lo pongas. La regla es simple: el jarrón tiene que sostener las flores, no competir con ellas." },
+				{ "type": "heading", "level": 2, "text": "Tallos largos, cuello angosto" },
+				{ "type": "paragraph", "text": "Para una sola rama o dos o tres tallos largos, elegí un jarrón alto con cuello angosto. Sostiene los tallos derechos y deja que la forma de la rama sea la protagonista. Como referencia, el jarrón debería medir un tercio del alto total del arreglo." },
+				{ "type": "image", "imageKey": "postJarronesInline", "size": "large", "align": "center" },
+				{ "type": "heading", "level": 2, "text": "Ramos y flores cortas, boca ancha" },
+				{ "type": "paragraph", "text": "Los ramos tupidos necesitan espacio para abrirse. Un jarrón bajo y ancho, o incluso un cuenco, deja que las flores caigan hacia los costados de forma natural. Si se te abren demasiado, atá los tallos con un hilo antes de ponerlos en el agua." },
+				{ "type": "heading", "level": 2, "text": "Para que duren más" },
+				{ "type": "paragraph", "text": "Cortá los tallos en diagonal antes de ponerlos en agua, sacá las hojas que quedan sumergidas y cambiá el agua cada dos días. Un jarrón de gres esmaltado por dentro no absorbe olores y se lava fácil." }
+			]
+		},
+		{
+			"key": "postLino",
+			"title": "Lino: por qué mejora con cada lavado",
+			"handle": "lino-mejora-con-cada-lavado",
+			"excerpt": "Es la única tela que se pone más linda con el uso. Qué tiene de especial y cómo cuidarla.",
+			"coverImageKey": "postLinoCover",
+			"isListed": true,
+			"seo": { "title": null, "description": "Por qué el lino se vuelve más suave con el tiempo y cómo lavarlo para que dure años." },
+			"content": [
+				{ "type": "paragraph", "text": "El lino recién comprado puede sentirse un poco rígido. No es un defecto: es una fibra larga y resistente que se va abriendo con el uso. Después de algunos lavados queda suave, fresca y con esa caída relajada que lo hace tan particular." },
+				{ "type": "heading", "level": 2, "text": "Una fibra que respira" },
+				{ "type": "paragraph", "text": "El lino absorbe la humedad y la libera rápido, por eso se siente fresco en verano. En invierno, una manta de lino abriga sin dar calor de más. Además, se seca mucho más rápido que el algodón." },
+				{ "type": "image", "imageKey": "postLinoInline", "size": "large", "align": "center" },
+				{ "type": "heading", "level": 2, "text": "Cómo lavarlo" },
+				{ "type": "paragraph", "text": "Lavarropas en frío o tibio, con jabón suave y sin suavizante, que tapa la fibra. Secalo a la sombra y, si te gusta el aspecto arrugado natural, no hace falta plancharlo. Si preferís un acabado más prolijo, planchalo apenas húmedo." },
+				{ "type": "heading", "level": 2, "text": "Las arrugas son parte del encanto" },
+				{ "type": "paragraph", "text": "El lino nunca va a quedar perfectamente liso, y está bien. Esas arrugas suaves son lo que le da carácter a una manta o a un mantel, y lo que hace que se vea usado de la mejor manera." }
+			]
+		},
+		{
+			"key": "postLamparas",
+			"title": "Luz cálida: guía rápida de lámparas de mesa",
+			"handle": "guia-lamparas-de-mesa",
+			"excerpt": "La luz cambia cómo se siente un ambiente más que cualquier mueble. Tres decisiones para elegir bien.",
+			"coverImageKey": "postLamparasCover",
+			"isListed": true,
+			"seo": { "title": null, "description": "Cómo elegir una lámpara de mesa: altura, pantalla y temperatura de la luz." },
+			"content": [
+				{ "type": "paragraph", "text": "La luz del techo ilumina, pero las lámparas de mesa son las que hacen que un ambiente se sienta habitado. Antes de elegir una, conviene pensar en tres cosas." },
+				{ "type": "heading", "level": 2, "text": "La altura" },
+				{ "type": "paragraph", "text": "En la mesa de luz, la parte de abajo de la pantalla debería quedar a la altura de tus ojos cuando estás sentado en la cama. Así la luz cae sobre el libro y no te encandila. En un aparador podés ir más alto y usar la lámpara como un objeto decorativo más." },
+				{ "type": "heading", "level": 2, "text": "La pantalla" },
+				{ "type": "paragraph", "text": "Una pantalla alta y angosta dirige la luz hacia arriba y hacia abajo; una baja y ancha la reparte hacia los costados. Las de lino o tela filtran la luz y la vuelven pareja y suave." },
+				{ "type": "image", "imageKey": "postLamparasInline", "size": "large", "align": "center" },
+				{ "type": "heading", "level": 2, "text": "La temperatura de la luz" },
+				{ "type": "paragraph", "text": "Para el living y el dormitorio, buscá lámparas de 2700 K, que dan una luz cálida parecida a la de una vela. Las de luz fría (4000 K o más) son mejores para trabajar, pero en casa vuelven todo más duro." }
+			]
+		}
+	],
+	"menus": [
+		{
+			"title": "Tienda",
+			"handle": "principal",
+			"items": [
+				{ "label": "Inicio", "url": "/", "resourceType": null, "openInNewTab": false },
+				{ "label": "Productos", "url": "/productos", "resourceType": null, "openInNewTab": false },
+				{ "label": "Mesa y cocina", "url": "/categorias/mesa-y-cocina", "resourceType": "collection", "resourceKey": "mesaYCocina", "openInNewTab": false },
+				{ "label": "Living", "url": "/categorias/living", "resourceType": "collection", "resourceKey": "living", "openInNewTab": false },
+				{ "label": "Blog", "url": "/blog", "resourceType": null, "openInNewTab": false }
+			]
+		},
+		{
+			"title": "Información",
+			"handle": "footer",
+			"items": [
+				{ "label": "Envíos", "url": "/paginas/politicas-de-envio", "resourceType": "page", "pageHandle": "politicas-de-envio", "openInNewTab": false },
+				{ "label": "Cambios y devoluciones", "url": "/paginas/politicas-de-cambios-y-devoluciones", "resourceType": "page", "pageHandle": "politicas-de-cambios-y-devoluciones", "openInNewTab": false },
+				{ "label": "Privacidad", "url": "/paginas/politicas-de-privacidad", "resourceType": "page", "pageHandle": "politicas-de-privacidad", "openInNewTab": false }
+			]
+		}
+	]
+}

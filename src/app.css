@@ -1,0 +1,205 @@
+@import 'tailwindcss';
+
+/* Design tokens. Change the look here before touching components:
+   - text-display / text-headline / text-title: the three heading sizes.
+     Hierarchy comes from size, not weight; keep body text regular.
+   - ink / paper / muted / line / surface: the neutral palette. The store's
+     own color (--primary) is reserved for buttons and the newsletter band.
+   - spacing-section: vertical room on each side of a homepage section
+     (two adjacent sections add up). */
+@theme {
+	--text-display: clamp(3.25rem, 10vw, 9rem);
+	--text-display--line-height: 0.92;
+	--text-display--letter-spacing: -0.045em;
+	--text-headline: clamp(2.25rem, 5.5vw, 4.75rem);
+	--text-headline--line-height: 1;
+	--text-headline--letter-spacing: -0.035em;
+	--text-title: clamp(1.75rem, 3.2vw, 2.75rem);
+	--text-title--line-height: 1.05;
+	--text-title--letter-spacing: -0.025em;
+
+	--color-ink: #0a0a0a;
+	--color-paper: #ffffff;
+	--color-muted: #6b6b6b;
+	--color-line: #e5e5e5;
+	--color-surface: #f2f1ee;
+
+	--spacing-section: clamp(3.5rem, 7vw, 6.5rem);
+}
+
+/* Page-width container with responsive side gutters. */
+@utility wrap {
+	width: 100%;
+	max-width: 90rem;
+	margin-inline: auto;
+	padding-inline: clamp(1rem, 4vw, 3rem);
+}
+
+/* Long-form HTML from the merchant (blog posts, static pages).
+   Merchant HTML may break lines with "\n" inside paragraphs, so text blocks keep them. */
+@utility rich-text {
+	max-width: 68ch;
+	font-size: 1.125rem;
+	line-height: 1.75;
+	& :where(p, li, blockquote) {
+		white-space: pre-line;
+	}
+	& :where(p, ul, ol, blockquote, figure, table, pre) {
+		margin-block: 1.25em;
+	}
+	& :where(h2) {
+		margin-top: 2.5em;
+		margin-bottom: 0.75em;
+		font-size: var(--text-title);
+		line-height: var(--text-title--line-height);
+		letter-spacing: var(--text-title--letter-spacing);
+		font-weight: 500;
+	}
+	& :where(h3, h4) {
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+		font-size: 1.375rem;
+		line-height: 1.3;
+		letter-spacing: -0.015em;
+		font-weight: 500;
+	}
+	& :where(> :first-child) {
+		margin-top: 0;
+	}
+	& :where(a) {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		text-decoration-thickness: 1px;
+	}
+	& :where(a:hover) {
+		text-decoration-thickness: 2px;
+	}
+	& :where(strong, b) {
+		font-weight: 600;
+	}
+	& :where(ul) {
+		list-style: disc;
+		padding-left: 1.25em;
+	}
+	& :where(ol) {
+		list-style: decimal;
+		padding-left: 1.25em;
+	}
+	& :where(li) {
+		margin-block: 0.4em;
+		padding-left: 0.25em;
+	}
+	& :where(li::marker) {
+		color: var(--color-muted);
+	}
+	& :where(blockquote) {
+		border-left: 2px solid var(--color-ink);
+		padding-left: 1.25em;
+		font-size: 1.25rem;
+		color: var(--color-ink);
+	}
+	& :where(img, video) {
+		display: block;
+		max-width: 100%;
+		height: auto;
+		border-radius: var(--radius-panels, 0);
+	}
+	& :where(hr) {
+		margin-block: 3em;
+		border-color: var(--color-line);
+	}
+	& :where(table) {
+		width: 100%;
+		font-size: 0.9375rem;
+		border-collapse: collapse;
+	}
+	& :where(th, td) {
+		border-bottom: 1px solid var(--color-line);
+		padding: 0.6em 0.75em 0.6em 0;
+		text-align: left;
+	}
+	& :where(code) {
+		font-size: 0.9em;
+		background: var(--color-surface);
+		padding: 0.15em 0.35em;
+		border-radius: 0.25em;
+	}
+}
+
+/* Small uppercase label above headings. */
+@utility eyebrow {
+	font-size: 0.75rem;
+	line-height: 1rem;
+	font-weight: 500;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--color-muted);
+}
+
+/* Loading dots: text-colored, pulsing 25% -> 100% in succession. */
+@keyframes btn-loading-dot {
+	0%,
+	100% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+@utility btn-dot {
+	animation: btn-loading-dot 1.2s ease-in-out infinite;
+	&:nth-child(2) {
+		animation-delay: 0.2s;
+	}
+	&:nth-child(3) {
+		animation-delay: 0.4s;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn-dot {
+		animation: none;
+	}
+}
+
+/* Secondary button: no border, primary color, light gray on hover. */
+@utility btn-secondary {
+	border-width: 0;
+	color: var(--primary, #262626);
+	transition:
+		background-color 0.2s ease,
+		color 0.2s ease;
+	&:hover {
+		background-color: var(--color-neutral-200);
+	}
+}
+
+/* Store personalization as theme variables, plus base form behavior.
+   Everything else is Tailwind utilities at the usage site. */
+@layer base {
+	.theme {
+		--primary: #262626;
+		--on-primary: #ffffff;
+		--radius-controls: 0.75rem;
+		--radius-panels: 1rem;
+		--font-family: ui-sans-serif, system-ui, sans-serif;
+		font-family: var(--font-family);
+		color: var(--color-ink);
+		background-color: var(--color-paper);
+	}
+
+	.theme input,
+	.theme select {
+		border-radius: var(--radius-controls, 0.75rem);
+	}
+
+	.theme button:not(:disabled),
+	.theme select:not(:disabled) {
+		cursor: pointer;
+	}
+
+	.theme button:disabled {
+		cursor: not-allowed;
+	}
+}
