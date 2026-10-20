@@ -42,7 +42,7 @@
 {:else}
 	<div class="py-24">
 		<p class="text-title font-medium">{emptyText}</p>
-		<a class="group mt-6 inline-flex items-center gap-2 font-medium" href="/productos">
+		<a class="group mt-6 inline-flex items-center gap-2 font-medium" href="/categorias/todas">
 			<span class="underline-offset-4 group-hover:underline">Ver todos los productos</span>
 			<span class="transition-transform motion-safe:group-hover:translate-x-1"><ArrowRight size={18} /></span>
 		</a>

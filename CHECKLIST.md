@@ -50,7 +50,8 @@ off with the merchant and verify the result in the browser.
 ## 5. Navigation and pages
 
 - [ ] **Merchant Center:** edit the `principal` menu (header): main
-      categories, products, blog. Keep it to 4–6 links.
+      categories, all products (`/categorias/todas`), blog. Keep it to 4–6
+      links.
 - [ ] **Merchant Center:** edit the `footer` menu (Información column).
 - [ ] **Merchant Center:** complete the three policy pages (shipping, returns,
       privacy) with the store's real terms. Replace every placeholder such as

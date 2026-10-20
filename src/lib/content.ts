@@ -5,8 +5,8 @@
 // replace it to match the real store (tone, products, promises) before launch.
 // Store name, products, collections and posts always come from the Store API.
 //
-// Links must point to routes that exist (/productos, /categorias/<handle>,
-// /paginas/<handle>, /blog). Never invent a /paginas/<handle> the store lacks.
+// Links must point to routes that exist (/categorias/<handle>, /paginas/<handle>,
+// /blog). All products is the virtual collection at /categorias/todas. Never invent a /paginas/<handle> the store lacks.
 // New stores are seeded with three policy pages, linked below:
 // politicas-de-envio, politicas-de-cambios-y-devoluciones, politicas-de-privacidad.
 
@@ -15,7 +15,7 @@ export const content = {
 		eyebrow: 'Objetos para la casa',
 		title: 'Menos cosas, mejor elegidas.',
 		text: 'Piezas simples y duraderas para cada ambiente. Elegidas una por una, pensadas para usarse todos los días.',
-		primary: { label: 'Ver productos', href: '/productos' },
+		primary: { label: 'Ver productos', href: '/categorias/todas' },
 		secondary: { label: 'Explorar categorías', href: '#categorias' }
 	},
 
@@ -32,7 +32,7 @@ export const content = {
 		eyebrow: 'Cómo elegimos',
 		title: 'Hechos para durar, no para una temporada.',
 		text: 'Trabajamos con talleres chicos y materiales nobles: cerámica, lino y madera maciza. Si no lo usaríamos en nuestra casa, no lo vendemos.',
-		link: { label: 'Ver la colección', href: '/productos' },
+		link: { label: 'Ver la colección', href: '/categorias/todas' },
 		image: {
 			url: 'https://imagedelivery.net/HiGIiqXkjW_RLEpaG3HXUg/3dcd0c43-db00-4f51-7c6f-77e2ca56ba00/lg',
 			alt: 'Jarrón de gres con una rama seca y un cuenco oscuro sobre una mesa de roble'

@@ -32,8 +32,8 @@ const base: ProductDetail = {
 	rating: 4.5,
 	reviewsCount: 2,
 	reviews: [
-		{ rating: 5, content: 'Excelente.', authorName: 'Ana', verifiedPurchase: true, images: [] },
-		{ rating: 4, content: 'Buena.', authorName: 'Luis', verifiedPurchase: false, images: [] }
+		{ rating: 5, content: 'Excelente.', authorName: 'Ana', verifiedPurchase: true, createdAt: '2026-09-02T12:00:00.000Z', images: [] },
+		{ rating: 4, content: 'Buena.', authorName: 'Luis', verifiedPurchase: false, createdAt: '2026-09-18T12:00:00.000Z', images: [] }
 	]
 };
 

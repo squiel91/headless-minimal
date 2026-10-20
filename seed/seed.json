@@ -4,7 +4,7 @@
 		"Demo content for a new store: 5 products, 2 collections, 3 blog posts. Shapes follow Merchant API v3 create requests.",
 		"Records reference each other by `key` because IDs only exist after creation. Every *Key / *Keys field replaces the API's matching *Id / *Ids field (imageKeys -> imageIds, coverImageKey -> coverImageId, attributeValueKeys -> attributeValueIds, collectionKeys -> collectionIds, imageKey -> imageId).",
 		"Image sources are public Cloudflare Images URLs (variant `lg`).",
-		"Creation order: 1) images (POST /images/from-url), 2) attributes (POST /attributes), 3) collections (POST /collections), 4) products (POST /products), then per product: collections/add, attribute-values (set), variants (POST /variants, then DELETE the initial no-attribute variant when `variants` is present), reviews (POST /reviews with productId), 5) collection product order (reorder-products, following `productKeys`), 6) blog posts (POST /blog-posts), 7) menus (POST /menus), last because items link to the records above.",
+		"Creation order: 1) images (POST /images/from-url), 2) attributes: create them, or reuse store attributes with the same name and values (POST /attributes), 3) collections (POST /collections), 4) products (POST /products), then per product: collections/add, reviews (POST /reviews with productId), and for products with `variants` follow the recipe \"Create a product with options\" (/api/reference/products/overview): assign `attributeValueKeys` to the product (attribute-values set), create one variant per entry (POST /variants), then DELETE the initial no-attribute variant; until it is deleted shoppers can buy it without choosing options. 5) collection product order (reorder-products, following `productKeys`), 6) blog posts (POST /blog-posts, with `publishedAt`), 7) menus (POST /menus), last because items link to the records above.",
 		"Menu items use `resourceKey` for records in this seed (-> resourceId). Items with `pageHandle` link to the standard pages the platform creates; resolve resourceId from that page's handle, and drop the item if the page does not exist.",
 		"Prices are UYU minor units. `stock: null` means unlimited; `stock: 0` shows as out of stock."
 	],
@@ -225,6 +225,7 @@
 			"title": "Cómo elegir un jarrón para cada flor",
 			"handle": "como-elegir-un-jarron",
 			"excerpt": "La forma del jarrón cambia todo. Una guía corta para que tus flores se vean mejor y duren más.",
+			"publishedAt": "2026-08-14",
 			"coverImageKey": "postJarronesCover",
 			"isListed": true,
 			"seo": { "title": null, "description": "Qué jarrón usar según el tipo de flor: tallos largos, ramos y flores sueltas." },
@@ -244,6 +245,7 @@
 			"title": "Lino: por qué mejora con cada lavado",
 			"handle": "lino-mejora-con-cada-lavado",
 			"excerpt": "Es la única tela que se pone más linda con el uso. Qué tiene de especial y cómo cuidarla.",
+			"publishedAt": "2026-09-11",
 			"coverImageKey": "postLinoCover",
 			"isListed": true,
 			"seo": { "title": null, "description": "Por qué el lino se vuelve más suave con el tiempo y cómo lavarlo para que dure años." },
@@ -263,6 +265,7 @@
 			"title": "Luz cálida: guía rápida de lámparas de mesa",
 			"handle": "guia-lamparas-de-mesa",
 			"excerpt": "La luz cambia cómo se siente un ambiente más que cualquier mueble. Tres decisiones para elegir bien.",
+			"publishedAt": "2026-10-07",
 			"coverImageKey": "postLamparasCover",
 			"isListed": true,
 			"seo": { "title": null, "description": "Cómo elegir una lámpara de mesa: altura, pantalla y temperatura de la luz." },
@@ -284,7 +287,7 @@
 			"handle": "principal",
 			"items": [
 				{ "label": "Inicio", "url": "/", "resourceType": null, "openInNewTab": false },
-				{ "label": "Productos", "url": "/productos", "resourceType": null, "openInNewTab": false },
+				{ "label": "Productos", "url": "/categorias/todas", "resourceType": null, "openInNewTab": false },
 				{ "label": "Mesa y cocina", "url": "/categorias/mesa-y-cocina", "resourceType": "collection", "resourceKey": "mesaYCocina", "openInNewTab": false },
 				{ "label": "Living", "url": "/categorias/living", "resourceType": "collection", "resourceKey": "living", "openInNewTab": false },
 				{ "label": "Blog", "url": "/blog", "resourceType": null, "openInNewTab": false }

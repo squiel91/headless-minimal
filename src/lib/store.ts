@@ -185,7 +185,7 @@ export async function getProduct(
 				related(first: 4) { handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
 				seo { title description }
 				rating reviewsCount
-				reviews(first: 10) { totalCount nodes { rating content authorName verifiedPurchase images { url alt } } }
+				reviews(first: 10) { totalCount nodes { rating content authorName verifiedPurchase createdAt images { url alt } } }
 			}
 		}`,
 		{ h: handle },
@@ -244,23 +244,6 @@ export async function getBlogPost(
 		fetchFn
 	);
 	return blogPost;
-}
-
-export async function getAllProducts(
-	fetchFn: typeof fetch,
-	page = 1
-): Promise<ProductConnection> {
-	const { products } = await query<{ products: ProductConnection }>(
-		`query($page: Int) {
-			products(first: 24, page: $page) {
-				pageInfo { currentPage hasNextPage hasPreviousPage }
-				nodes { handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
-			}
-		}`,
-		{ page },
-		fetchFn
-	);
-	return products;
 }
 
 export async function searchProducts(

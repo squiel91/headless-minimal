@@ -15,8 +15,7 @@ export interface ProductReview {
 	authorName: string;
 	verifiedPurchase: boolean;
 	images: Image[];
-	// Not exposed by the Store API Review type yet; renders when present.
-	createdAt?: string | null;
+	createdAt: string;
 }
 
 export interface ProductListItem {

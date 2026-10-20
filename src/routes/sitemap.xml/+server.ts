@@ -44,7 +44,7 @@ export const GET: RequestHandler = async ({ fetch, url }) => {
 	]);
 	const paths = [
 		'/',
-		'/productos',
+		'/categorias/todas',
 		'/blog',
 		...collections.map((handle) => `/categorias/${handle}`),
 		...products.map((handle) => `/productos/${handle}`),

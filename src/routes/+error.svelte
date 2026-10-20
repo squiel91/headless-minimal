@@ -29,7 +29,7 @@
 	</p>
 	<div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
 		<Button variant="primary" size="xl" href="/">Volver al inicio</Button>
-		<a class="group inline-flex items-center gap-2 font-medium" href={notFound ? '/productos' : page.url.pathname}>
+		<a class="group inline-flex items-center gap-2 font-medium" href={notFound ? '/categorias/todas' : page.url.pathname}>
 			<span class="underline-offset-4 group-hover:underline">{notFound ? 'Ver productos' : 'Reintentar'}</span>
 			<span class="transition-transform motion-safe:group-hover:translate-x-1"><ArrowRight size={18} /></span>
 		</a>

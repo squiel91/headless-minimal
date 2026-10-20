@@ -104,6 +104,28 @@
 		height: auto;
 		border-radius: var(--radius-panels, 0);
 	}
+	/* Image blocks from the blog editor: <figure class="content-image" data-size data-align>. */
+	& :where(.content-image) {
+		margin-block: 2em;
+	}
+	& :where(.content-image[data-size='small']) {
+		max-width: 20rem;
+	}
+	& :where(.content-image[data-size='medium']) {
+		max-width: 32rem;
+	}
+	& :where(.content-image[data-size='large']) {
+		max-width: 48rem;
+	}
+	& :where(.content-image[data-align='center']) {
+		margin-inline: auto;
+	}
+	& :where(.content-image[data-align='right']) {
+		margin-inline-start: auto;
+	}
+	& :where(.content-image img) {
+		width: 100%;
+	}
 	& :where(hr) {
 		margin-block: 3em;
 		border-color: var(--color-line);

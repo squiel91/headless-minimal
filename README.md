@@ -35,8 +35,8 @@ test orders afterwards.
 ## Routes
 
 - `/` home (sections listed in `src/routes/+page.svelte`)
-- `/productos` all products
-- `/categorias/[handle]` collection with subcategories, sort and infinite scroll
+- `/categorias/[handle]` collection with subcategories, sort and infinite scroll.
+  All products is the virtual collection `todas`, at `/categorias/todas`.
 - `/productos/[handle]` product with variant picker + add to cart
 - `/busqueda?q=...` search results (also the target of the search overlay)
 - `/blog` and `/blog/[handle]` blog list and post

@@ -1,7 +1,0 @@
-import type { PageServerLoad } from './$types';
-import { getAllProducts } from '#lib/store';
-
-export const load: PageServerLoad = async ({ fetch, url }) => {
-	const page = Number(url.searchParams.get('page') ?? 1) || 1;
-	return { page, products: await getAllProducts(fetch, page) };
-};

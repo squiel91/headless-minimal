@@ -62,15 +62,8 @@
 			shop = await import('#lib/shop');
 			const { quantity } = await shop.getQuantity();
 			count = quantity;
-			// Overlays don't report closing: refresh the badge when their frame leaves the page.
-			new MutationObserver((records: MutationRecord[]) => {
-				const closed = records.some((record) =>
-					Array.from(record.removedNodes).some(
-						(node) => node instanceof Element && node.id === 'left-iframe'
-					)
-				);
-				if (closed) void refresh();
-			}).observe(document.body, { childList: true });
+			// Checkout and other overlays can change the cart: refresh the badge when one closes.
+			window.addEventListener('tiendu:overlay-close', () => void refresh());
 		} catch (error) {
 			status = error instanceof Error ? error.message : String(error);
 		}

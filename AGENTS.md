@@ -35,7 +35,7 @@ originals so the layout holds. Then follow `CHECKLIST.md`.
 | `src/lib/shop.ts` | Browser-only SDK calls (cart, checkout, search, subscribe) |
 | `src/lib/tiendu.ts` | TypeScript types for Store API data |
 | `src/lib/variants.ts` | Pure helpers for variant selection on the product page |
-| `src/routes/**` | Pages: `/productos`, `/categorias/[handle]`, `/blog`, `/paginas/[handle]`, `/busqueda` |
+| `src/routes/**` | Pages: `/productos/[handle]`, `/categorias/[handle]` (all products is `/categorias/todas`), `/blog`, `/paginas/[handle]`, `/busqueda` |
 | `src/routes/+error.svelte`, `src/error.html` | Error page, and the fallback when even the layout fails |
 | `seed/` | Demo store data and image prompts (reference only, not used at runtime) |
 
@@ -79,7 +79,8 @@ or `shop.ts` from server code.
 - Every page sets its own width with `wrap`; `<main>` has no width.
 - Shopper-facing text in Spanish (rioplatense). Code and comments in English.
 - Routes keep the Spanish prefixes (`/productos`, `/categorias`, `/paginas`,
-  `/blog`); store menus link to them directly.
+  `/blog`); store menus link to them directly. All products is the virtual
+  collection `todas` (`/categorias/todas`); there is no `/productos` listing.
 - Links never point to routes that may not exist.
 - Images: 4:5 for products and the homepage split, 4:3 for blog covers. See
   `DESIGN.md` for the art direction.
@@ -93,8 +94,8 @@ pnpm build   # production build
 ```
 
 Then run `pnpm dev` and look at the changed pages at desktop width and at
-390px wide. Nothing may scroll horizontally. Useful pages: `/`, `/productos`,
-a category, a product with options, `/blog`, a post, a policy page, and a
+390px wide. Nothing may scroll horizontally. Useful pages: `/`,
+`/categorias/todas`, a category, a product with options, `/blog`, a post, a policy page, and a
 missing URL for the 404.
 
 ## Don't

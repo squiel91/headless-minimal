@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
 	// The configured collection when it has products, otherwise best sellers.
 	const featured = preview?.products.length
 		? { title: preview.name, href: `/categorias/${preview.handle}`, products: preview.products }
-		: { title: content.featured.fallbackTitle, href: '/productos', products: home.products.slice(0, 4) };
+		: { title: content.featured.fallbackTitle, href: '/categorias/todas', products: home.products.slice(0, 4) };
 
 	return { collections: home.collections, featured, posts: blog.nodes.slice(0, 4) };
 };

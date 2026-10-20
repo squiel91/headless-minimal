@@ -8,11 +8,11 @@
 	import Breadcrumbs from '#lib/Breadcrumbs.svelte';
 	import Rating from '#lib/Rating.svelte';
 	import { content } from '#lib/content';
+	import { formatDate } from '#lib/date';
 	import { formatRating } from '#lib/rating';
 	import ProductGrid from '#lib/sections/ProductGrid.svelte';
 	import ArrowRight from '#lib/ui/icons/ArrowRight.svelte';
 	import { buildProductJsonLd } from '#lib/productJsonLd';
-	import { timeAgoEs } from '#lib/timeAgo';
 	import ValueSwatch from '#lib/ValueSwatch.svelte';
 	import {
 		commonCompareAt,
@@ -176,7 +176,7 @@
 </svelte:head>
 
 <div class="wrap pt-8">
-	<Breadcrumbs trail={[{ label: 'Inicio', href: '/' }, { label: 'Productos', href: '/productos' }, { label: product.title }]} />
+	<Breadcrumbs trail={[{ label: 'Inicio', href: '/' }, { label: 'Productos', href: '/categorias/todas' }, { label: product.title }]} />
 
 	<div class="mt-8 grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12 lg:gap-20">
 		<div class="md:col-span-7">
@@ -422,7 +422,7 @@
 						<p class="mt-4 text-sm text-muted">
 							<span class="text-ink">{review.authorName}</span>
 							{#if review.verifiedPurchase}<span class="ml-2">· Compra verificada</span>{/if}
-							{#if review.createdAt}<span class="ml-2">· {timeAgoEs(review.createdAt)}</span>{/if}
+							<span class="ml-2">· {formatDate(review.createdAt)}</span>
 						</p>
 					</li>
 				{/each}
