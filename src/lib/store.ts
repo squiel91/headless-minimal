@@ -100,7 +100,7 @@ export async function getHome(fetchFn: typeof fetch): Promise<{
 		`{
 			collections(roots: true) { nodes { handle name coverImage { url alt } } }
 			products(first: 8, sortBy: "best-selling") {
-				nodes { handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
+				nodes { id handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
 			}
 		}`,
 		undefined,
@@ -128,7 +128,7 @@ export async function getCollectionPreview(
 			collection(handle: $h) {
 				handle name
 				products(first: $first) {
-					nodes { handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
+					nodes { id handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
 				}
 			}
 		}`,
@@ -155,7 +155,7 @@ export async function getCollection(
 				seo { title description }
 				products(first: 24, page: $page, sortBy: $sort) {
 					pageInfo { currentPage hasNextPage hasPreviousPage }
-					nodes { handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
+					nodes { id handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
 				}
 			}
 		}`,
@@ -182,7 +182,7 @@ export async function getProduct(
 				options { name displayType values { value color image { url alt } } }
 				variants { id image { url alt } sku priceInCents compareAtPriceInCents stock available selectedOptions { name value } }
 				specifications { name value }
-				related(first: 4) { handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
+				related(first: 4) { id handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
 				seo { title description }
 				rating reviewsCount
 				reviews(first: 10) { totalCount nodes { rating content authorName verifiedPurchase createdAt images { url alt } } }
@@ -255,7 +255,7 @@ export async function searchProducts(
 		`query($q: String, $page: Int) {
 			products(query: $q, first: 24, page: $page) {
 				pageInfo { currentPage hasNextPage hasPreviousPage }
-				nodes { handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
+				nodes { id handle title currency priceMinInCents priceMaxInCents compareAtPriceInCents available coverImage { url alt } rating reviewsCount }
 			}
 		}`,
 		{ q, page },

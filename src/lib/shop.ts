@@ -7,6 +7,7 @@ import {
 	PUBLIC_STORE_ORIGIN as STORE_ORIGIN
 } from '$app/env/public';
 import { checkoutUi } from '#lib/checkout-ui.svelte';
+import { shopperUi, type Shopper } from '#lib/shopper-ui.svelte';
 import type { Variant } from '#lib/tiendu';
 
 interface CartVariant {
@@ -27,6 +28,14 @@ interface SdkCartProduct {
 }
 
 interface TienduClient {
+	shopper: {
+		getStatus(): Promise<{ shopper: Shopper | null; wishlistCount: number; wishlistProductIds: number[] }>;
+		open(options?: { productId?: string }): Promise<unknown>;
+	};
+	wishlist: {
+		open(): Promise<unknown>;
+		toggle(productId: string): Promise<{ saved: boolean; count: number; productIds: number[] }>;
+	};
 	cart: {
 		getQuantity(): Promise<{ quantity: number }>;
 		add(variant: CartVariant, quantity: number, product: SdkCartProduct): Promise<unknown>;
@@ -108,6 +117,49 @@ export async function addToCart(
 
 export async function openSearch(query: string): Promise<unknown> {
 	return (await getClient()).search.open({ query });
+}
+
+let shopperRequest = 0;
+
+export async function refreshShopper(): Promise<void> {
+	const request = ++shopperRequest;
+	const status = await (await getClient()).shopper.getStatus();
+	if (request !== shopperRequest) return;
+	shopperUi.shopper = status.shopper;
+	shopperUi.wishlistProductIds = status.wishlistProductIds;
+}
+
+export async function openShopperOverlay(overlay: 'account' | 'wishlist'): Promise<void> {
+	if (shopperUi.opening) return;
+	shopperUi.opening = overlay;
+	try {
+		const client = await getClient();
+		if (overlay === 'account') await client.shopper.open();
+		else await client.wishlist.open();
+	} finally {
+		shopperUi.opening = null;
+	}
+}
+
+export async function toggleWishlist(productId: string): Promise<boolean | null> {
+	const id = String(productId);
+	if (shopperUi.pendingProductIds.includes(id)) return null;
+	shopperUi.pendingProductIds.push(id);
+	try {
+		const client = await getClient();
+		const { shopper } = await client.shopper.getStatus();
+		if (!shopper) {
+			await client.shopper.open({ productId: id });
+			return null;
+		}
+		const { saved, productIds } = await client.wishlist.toggle(id);
+		++shopperRequest; // Ignore reads started before this mutation completed.
+		shopperUi.shopper = shopper;
+		shopperUi.wishlistProductIds = productIds;
+		return saved;
+	} finally {
+		shopperUi.pendingProductIds = shopperUi.pendingProductIds.filter((pending) => pending !== id);
+	}
 }
 
 export async function openCheckout(): Promise<unknown> {

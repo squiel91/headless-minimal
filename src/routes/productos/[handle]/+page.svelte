@@ -14,6 +14,7 @@
 	import ArrowRight from '#lib/ui/icons/ArrowRight.svelte';
 	import { buildProductJsonLd } from '#lib/productJsonLd';
 	import ValueSwatch from '#lib/ValueSwatch.svelte';
+	import WishlistButton from '#lib/WishlistButton.svelte';
 	import {
 		commonCompareAt,
 		commonImage,
@@ -304,14 +305,17 @@
 							</Button>
 						</div>
 					</div>
-					<button
-						type="button"
-						class="mt-4 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
-						onclick={shareProduct}
-					>
-						<Forward size={16} strokeWidth={1.75} />
-						Compartir
-					</button>
+					<div class="mt-4 flex flex-wrap items-center gap-x-6">
+						<WishlistButton productId={product.id} title={product.title} label />
+						<button
+							type="button"
+							class="inline-flex min-h-10 items-center gap-2 text-sm text-muted transition-colors hover:text-ink"
+							onclick={shareProduct}
+						>
+							<Forward size={16} strokeWidth={1.75} />
+							Compartir
+						</button>
+					</div>
 					{#if status}<p class="mt-2 text-sm" role="status">{status}</p>{/if}
 				</div>
 

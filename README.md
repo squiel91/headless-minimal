@@ -2,11 +2,9 @@
 
 Minimal SSR storefront for a Tiendu store. Server renders catalog pages with
 plain `fetch` against the public Store API; the browser handles only the
-shopper session (cart badge, add to cart) and the Tiendu checkout overlay
-through `static/tiendu-sdk.js`.
-
-Out of scope on purpose: shopper account and wishlist. Add them the same way
-when needed.
+shopper session (cart, account and favorites) and Tiendu's checkout, search,
+account and wishlist overlays through `static/tiendu-sdk.js`. Save buttons on
+product cards and product pages request sign-in when needed and update together.
 
 - `CHECKLIST.md`: steps to turn the template into a real store.
 - `DESIGN.md`: design rules, tokens and image art direction.

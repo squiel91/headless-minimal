@@ -19,6 +19,7 @@ export interface ProductReview {
 }
 
 export interface ProductListItem {
+	id: string;
 	handle: string;
 	title: string;
 	currency: string;

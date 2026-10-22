@@ -8,7 +8,8 @@ changing anything visual, and follow `CHECKLIST.md` when setting up a new store.
 A headless Tiendu storefront built with SvelteKit 3, Svelte 5 (runes) and
 Tailwind CSS 4. Pages render on the server from the public **Store API**
 (GraphQL). The browser only handles the shopper session (cart badge, add to
-cart) and Tiendu's checkout and search overlays through `static/tiendu-sdk.js`.
+cart, account and favorites) and Tiendu's checkout, search, account and wishlist
+overlays through `static/tiendu-sdk.js`.
 
 Tiendu docs: start at `/llms.txt` on the docs site, then **Headless** and the
 **Store API** reference. Store data changes (products, pages, menus) go through
@@ -32,7 +33,9 @@ originals so the layout holds. Then follow `CHECKLIST.md`.
 | `src/app.css` | Design tokens (`@theme`), `wrap`, `eyebrow`, `rich-text` |
 | `src/routes/+layout.svelte` | Header, mobile menu, newsletter band, footer, WhatsApp button, store theming |
 | `src/lib/store.ts` | Server-only Store API queries |
-| `src/lib/shop.ts` | Browser-only SDK calls (cart, checkout, search, subscribe) |
+| `src/lib/shop.ts` | Browser-only SDK calls (cart, checkout, search, account, favorites, subscribe) |
+| `src/lib/shopper-ui.svelte.ts` | Browser-owned customer, saved IDs and pending actions |
+| `src/lib/WishlistButton.svelte` | Shared save/remove button for cards and product pages |
 | `src/lib/tiendu.ts` | TypeScript types for Store API data |
 | `src/lib/variants.ts` | Pure helpers for variant selection on the product page |
 | `src/routes/**` | Pages: `/productos/[handle]`, `/categorias/[handle]` (all products is `/categorias/todas`), `/blog`, `/paginas/[handle]`, `/busqueda` |
@@ -69,6 +72,19 @@ store. New stores are seeded with `politicas-de-envio`,
 GraphQL query and a typed result, add types to `src/lib/tiendu.ts`, and call
 it from a `+page.server.ts` `load`. Never import `store.ts` from browser code
 or `shop.ts` from server code.
+
+**Account and favorites.** Desktop header buttons and the mobile menu's bottom
+actions open Tiendu's overlays. Keep the icon menu trigger available even when
+there is no main menu. Close the drawer and flush its scroll lock before opening
+an overlay. Both copies of the controls use the same shopper state. The menu
+icon has two bars centered vertically. Drawer slide and backdrop fade transitions take
+240ms, skip motion when requested, and keep scroll locked through the outro.
+Use and await `closeMenu()` before opening a shopper overlay. Use
+`WishlistButton` outside product links; anonymous clicks open sign-in with the
+product pending. The root layout refreshes shared state on
+`tiendu:shopper-status` and overlay close, so newly loaded cards and product
+navigation retain the current hearts. Never fetch or mutate shopper state in
+server loads.
 
 ## Conventions
 
