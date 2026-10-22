@@ -32,7 +32,7 @@ interface TienduClient {
 		add(variant: CartVariant, quantity: number, product: SdkCartProduct): Promise<unknown>;
 	};
 	checkout: {
-		open(): Promise<unknown>;
+		open(options?: { couponCode?: string }): Promise<unknown>;
 	};
 	search: {
 		open(options?: { query?: string; suggestions?: string[] }): Promise<unknown>;
@@ -47,7 +47,14 @@ interface SubscriberCreateResponse {
 
 declare global {
 	interface Window {
-		Tiendu?: (options: { storeHandle: string; origin: string }) => TienduClient;
+		Tiendu?: (options: {
+			storeHandle: string;
+			origin: string;
+			couponLinks?: { enabled?: boolean };
+			session?: { persist?: boolean };
+			analytics?: { pageViews?: boolean };
+			search?: { suggestions?: string[] };
+		}) => TienduClient;
 	}
 }
 
