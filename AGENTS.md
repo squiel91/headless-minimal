@@ -125,4 +125,4 @@ missing URL for the 404.
 
 ## SDK initialization
 
-SDK 2.2.0 handles `?cupon=CODE` on the first `Tiendu()` call: it removes the parameter and opens checkout with the code prefilled for the customer to confirm. `couponLinks: { enabled: false }` disables that behavior; `session: { persist: false }` keeps the shopper token in memory without localStorage. Both default to true. Set these options on the first client initialization; later calls reuse that client. Loading the SDK alone does not initialize it.
+SDK 2.3.0 (since 2.2.0) handles `?cupon=CODE` on the first `Tiendu()` call: it removes the parameter and opens checkout with the code prefilled for the customer to confirm. `couponLinks: { enabled: false }` disables that behavior; `session: { persist: false }` keeps the shopper token in memory without localStorage. Both default to true. Set these options on the first client initialization; later calls reuse that client. Loading the SDK alone does not initialize it.
